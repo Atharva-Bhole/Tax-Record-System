@@ -222,3 +222,16 @@ status TEXT CHECK (status IN ('pending', 'success', 'failed', 'refunded')),
 provider TEXT,
 txn_id TEXT
 ```
+
+
+
+# Services
+
+
+## 1. Auth Service
+## 2. Booking Service --> Ticket Service
+## 3. Payment Service
+## 4. Event Service
+## 5. Notification Service
+## 6. Admin Service
+## 7. User Service

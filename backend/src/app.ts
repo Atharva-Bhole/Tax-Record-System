@@ -1,4 +1,5 @@
 import express, {Request, Response, NextFunction} from "express";
+import { PORT } from "./config/config";
 
 const app = express();
 
@@ -12,4 +13,9 @@ app.use('/', async (req : Request, res : Response, next : NextFunction):Promise<
         console.error(err);
         res.status(500);
     }
+})
+
+
+app.listen(PORT, ()=>{
+    console.log(`Server is running on PORT: ${PORT}`)
 })
