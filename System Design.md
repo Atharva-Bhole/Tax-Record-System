@@ -1,237 +1,132 @@
-# 🎉 Event Management System - Production-Level Design
+# 🇮🇳 Blockchain-based Tax Payment Platform – Microservices System Design
+
+## 🧩 Overview
+
+This system enables citizens to pay taxes securely via a blockchain-based platform. Every rupee is traceable, showing transparent allocation to public projects like infrastructure, health, defense, etc. 
 
 ---
 
-## 🔧 1. Core Features
+## 🏗️ Microservices Architecture
 
-### A. Users
-- User Registration / Login (OAuth, email/password, SSO)
-- User Profiles
-- Roles: `Admin`, `Organizer`, `Attendee`
-
-### B. Event Lifecycle
-- Create/Update/Delete Event (Organizer)
-- View/Search/Filter Events (Attendee)
-- Event Types: Online, Offline, Hybrid
-- Event Details: Date, Time, Venue, Speaker, Category, Tags
-
-### C. Ticketing
-- Ticket Tiers: Free, Paid, VIP
-- Seat Selection (for venue-specific)
-- Ticket Limits per user
-- QR Code generation for validation
-
-### D. Booking System
-- Locking Mechanism for high-concurrency booking
-- Waitlisting
-- Booking History
-
-### E. Payment Integration
-- Razorpay, Stripe, PayPal support
-- Webhooks for payment success/failure
-- Refund handling
-- Coupons, Discounts
-
-### F. Notifications
-- Email / SMS / In-app
-- Reminders, Confirmations
-- Integration: Twilio, SendGrid, Firebase
-
-### G. Admin Dashboard
-- Event approval, moderation
-- Reports and analytics
-- Manage users, events, payments
+### 1. **Auth Service**
+- **Responsibilities**:
+  - User registration & login
+  - Role-based access (Citizen, Auditor, Admin)
+  - Token-based authentication (JWT or OAuth)
+- **Tech Stack**:
+  - Node.js / Python (FastAPI)
+  - PostgreSQL (user data)
+  - Redis (session/token cache)
 
 ---
 
----
-
-## ⚙️ 2. Tech Stack
-
-| Component        | Choice                         |
-|------------------|--------------------------------|
-| Frontend         | React.js / Next.js / Flutter   |
-| Backend          | Node.js (Express/NestJS) or Go |
-| API Gateway      | NGINX / Kong / Express Proxy   |
-| DB (Main)        | PostgreSQL                     |
-| Caching          | Redis                          |
-| Search           | Elasticsearch / MeiliSearch    |
-| File Storage     | AWS S3 / Cloudinary            |
-| Messaging Queue  | RabbitMQ / Kafka               |
-| Auth             | JWT + OAuth2                   |
-| Payments         | Stripe / Razorpay              |
-| Notifications    | Firebase, SendGrid, Twilio     |
-| Monitoring       | Prometheus, Grafana, Sentry    |
-| Deployment       | Docker + Kubernetes (EKS/GKE)  |
-| CI/CD            | GitHub Actions / GitLab CI     |
-| Secrets Manager  | AWS Secrets Manager / Vault    |
+### 2. **Tax Payment Service**
+- **Responsibilities**:
+  - Submit tax payment requests
+  - Calculate tax (based on salary/income slab)
+  - Trigger payment through gateway or wallet
+  - Create blockchain transaction
+- **Tech Stack**:
+  - Python / Go
+  - Integration with Blockchain Service
+  - MongoDB / PostgreSQL (for transaction logs)
 
 ---
 
-## 🧠 3. Microservices Breakdown
-
-### A. Auth Service
-- JWT issuance & refresh
-- Role-based Access Control
-- OAuth2 (Google, Facebook)
-
-### B. User Service
-- Profile Management
-- Organizer Verification
-- Attendee Preferences
-
-### C. Event Service
-- CRUD on Events
-- Search, Filter, Tags
-- Pagination, Sorting
-
-### D. Booking Service
-- Ticket allocation
-- Locking (Redis + TTL)
-- Seat assignment logic
-
-### E. Ticket Service
-- QR Code generation (e.g., using `qrcode` lib)
-- PDF ticket creation
-
-### F. Payment Service
-- Order creation
-- Webhook verification
-- Refund handling
-
-### G. Notification Service
-- Email templates
-- SMS + Push notifications
-- CRON jobs for reminders
-
-### H. Admin Service
-- Approve/Deny events
-- Report abusive events
-- Analytics Dashboard
+### 3. **Blockchain Service**
+- **Responsibilities**:
+  - Smart contract interaction (recording tax payment, disbursement)
+  - Maintain distributed ledger
+  - API to query transaction trail
+- **Tech Stack**:
+  - Solidity (Smart Contracts)
+  - Ethereum / Polygon / Hyperledger
+  - Web3.py / ethers.js
+  - IPFS (for storing documents/receipts)
 
 ---
 
-## 🔐 4. Security
-
-- Rate Limiting (API Gateway or Redis)
-- CSRF, XSS, SQLi protection
-- HTTPS Everywhere
-- 2FA for organizers
-- Audit logs
-- Role-based access at route and data level
-
----
-
-## 📈 5. Scalability
-
-- Use CDN for static assets
-- Horizontally scalable services (K8s)
-- Caching frequently queried data (Redis)
-- Read replicas for PostgreSQL
-- Use eventual consistency where possible (e.g., notifications)
-- CQRS for Booking/Event read/write
+### 4. **Fund Allocation Service**
+- **Responsibilities**:
+  - Admin allocates incoming tax to government sectors/projects
+  - Citizens can view allocations for their payments
+  - Interacts with smart contract for audit trail
+- **Tech Stack**:
+  - Node.js / Python
+  - Blockchain backend
+  - PostgreSQL (for mapping payment to project metadata)
 
 ---
 
-## 📊 6. Observability
-
-- Logging: ELK Stack or Loki
-- Metrics: Prometheus + Grafana
-- Error Monitoring: Sentry
-- Health checks for each microservice
-- Alerting with PagerDuty or Opsgenie
-
----
-
-## 🧪 8. Testing Strategy
-
-- Unit Tests (Jest, PyTest, etc.)
-- Integration Tests (Postman + CI)
-- Load Testing (k6, Locust)
-- End-to-End Tests (Cypress)
+### 5. **Notification Service**
+- **Responsibilities**:
+  - Notify users about payment, allocation, and updates
+  - Email/SMS/Push notifications
+- **Tech Stack**:
+  - Firebase / SendGrid / Twilio
+  - Kafka / RabbitMQ (event bus)
 
 ---
 
-## 🔄 9. CI/CD Pipeline
-
-- Lint, Test, Build
-- Docker Image build and push to ECR/GCR
-- Auto deploy via Helm in Kubernetes
-- Blue-Green deployment for rollback
+### 6. **Analytics & Transparency Service**
+- **Responsibilities**:
+  - Generate visual reports on tax flow
+  - Public dashboards to see real-time usage (heatmap, pie chart, etc.)
+  - Filters by region/project/type
+- **Tech Stack**:
+  - React + Chart.js / D3.js frontend
+  - FastAPI / Flask backend
+  - TimescaleDB / InfluxDB for time-series tax flows
 
 ---
 
-## 📝 10. Database Design (Simplified)
+### 7. **Admin Service**
+- **Responsibilities**:
+  - Government officials manage project creation, fund distribution
+  - View citizen payments and reports
+- **Tech Stack**:
+  - React Admin Panel
+  - Role-based APIs
 
-### `users`
-```sql
-id SERIAL PRIMARY KEY,
-name TEXT NOT NULL,
-email TEXT UNIQUE NOT NULL,
-password TEXT,
-role TEXT CHECK (role IN ('admin', 'organizer', 'attendee')),
-created_at TIMESTAMP DEFAULT NOW()
-```
+---
 
+## 🔐 Security & Compliance
 
-## Events Table
-```sql
-id SERIAL PRIMARY KEY,
-title TEXT NOT NULL,
-description TEXT,
-organizer_id INT REFERENCES users(id),
-start_time TIMESTAMP,
-end_time TIMESTAMP,
-venue TEXT,
-type TEXT CHECK (type IN ('online', 'offline', 'hybrid')),
-category TEXT,
-tags TEXT[]
+- End-to-end Encryption (HTTPS + TLS)
+- Role-based JWT/OAuth2 auth
+- Blockchain immutability for traceability
+- GDPR & Indian data compliance (DPDP Bill)
 
-```
+---
 
-## Tickets Table
-```sql
-id SERIAL PRIMARY KEY,
-event_id INT REFERENCES events(id),
-type TEXT,
-price NUMERIC,
-total INT,
-available INT
-```
+## 🔁 Inter-Service Communication
 
+- **REST/gRPC APIs**
+- **Message Queue (Kafka / RabbitMQ)** for event-based operations like:
+  - Payment completed → Notify
+  - Payment added → Trigger fund allocation
 
-## Bookings Table
+---
 
-```sql
-id SERIAL PRIMARY KEY,
-user_id INT REFERENCES users(id),
-event_id INT REFERENCES events(id),
-ticket_id INT REFERENCES tickets(id),
-status TEXT CHECK (status IN ('pending', 'confirmed', 'cancelled')),
-booked_at TIMESTAMP DEFAULT NOW()
-```
+## 📦 Database Design (Simplified)
 
+### Users Table
+| id | name | role | aadhar_id | email | password_hash |
 
+### TaxPayments
+| id | user_id | amount | timestamp | blockchain_txn |
 
-## Payments Table
+### ProjectAllocations
+| id | tax_payment_id | project_id | amount_allocated | blockchain_txn |
 
-```sql
-id SERIAL PRIMARY KEY,
-booking_id INT REFERENCES bookings(id),
-status TEXT CHECK (status IN ('pending', 'success', 'failed', 'refunded')),
-provider TEXT,
-txn_id TEXT
-```
+### GovernmentProjects
+| id | name | description | sector | total_received |
 
+---
 
+## 🔗 Smart Contract (Key Functions)
 
-# Services
-
-
-## 1. Auth Service
-## 2. Booking Service --> Ticket Service
-## 3. Payment Service
-## 4. Event Service
-## 5. Notification Service
-## 6. Admin Service
-## 7. User Service
+```solidity
+function payTax(address citizen, uint amount) public returns (bool);
+function allocateFunds(uint taxId, uint projectId, uint amount) public;
+function getTaxTrail(address citizen) public view returns (...);
