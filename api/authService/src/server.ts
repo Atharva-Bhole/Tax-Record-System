@@ -1,6 +1,8 @@
 import express, { NextFunction, Request, Response, Application } from "express";
 import { PORT } from "./config/config";
 
+import authRoutes from "./routes/auth.route";
+
 const app:Application = express();
 
 app.get('/', async(req : Request, res : Response, next : NextFunction):Promise<void>=>{
@@ -9,6 +11,8 @@ app.get('/', async(req : Request, res : Response, next : NextFunction):Promise<v
     });
     return;
 })
+
+app.use('/api/v1', authRoutes);
 
 
 app.listen(PORT, ()=>{
