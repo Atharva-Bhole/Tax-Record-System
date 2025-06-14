@@ -5,6 +5,7 @@ export interface User {
     name : string!;
     email : string!;
     aadhar_id : string!;
+    role: "admin" | "user";
     password : string!;
 }
 

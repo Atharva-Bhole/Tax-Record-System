@@ -5,14 +5,15 @@ import { updateUser } from "../controllers/update.controller";
 import { LogOut } from "../controllers/logout.controller";
 import { forgotPassword } from "../controllers/forgotPassword.controller";
 import { deleteUser } from "../controllers/delete.controller";
+import { adminMiddleware, authMiddleware } from "../middlewares/cookie.middleware";
 
 const router:Router = express.Router();
 
-router.post('/login', LoginByEmail);
+router.post('/login',authMiddleware, LoginByEmail);
 router.post('/register', registerUser);
-router.put('/update-me', updateUser);
-router.get('/logout', LogOut);
+router.put('/update-me',authMiddleware, updateUser);
+router.get('/logout',authMiddleware, LogOut);
 router.put('/forgot-password', forgotPassword);
-router.delete('/delete-me', deleteUser);
+router.delete('/delete-me',adminMiddleware, deleteUser);
 
 export default router;
