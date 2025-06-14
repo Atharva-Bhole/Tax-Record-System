@@ -28,7 +28,7 @@ contract TaxSystem{
         uint paymentId;
     }
 
-    mapping(address => TaxPayer) public taxpayers;
+    mapping(address => TaxPayer) private taxpayers;
     Payment[] public payments;
     Allocation[] public allocations;
 
@@ -103,6 +103,17 @@ contract TaxSystem{
 
     function getAllocationCount() external view returns (uint) {
         return allocations.length;
+    }
+
+    function getTaxPayer(address user) external view returns (
+        string memory name,
+        string memory pan,
+        bool isRegistered,
+        uint totalTaxPaid,
+        uint[] memory paymentIds
+    ) {
+        TaxPayer storage tp = taxpayers[user];
+        return (tp.name, tp.pan, tp.isRegistered, tp.totalTaxPaid, tp.paymentIds);
     }
 
     function getUserAllocations(address user) external view returns (Allocation[] memory) {
