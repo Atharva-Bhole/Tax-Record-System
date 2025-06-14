@@ -130,3 +130,6 @@ This system enables citizens to pay taxes securely via a blockchain-based platfo
 function payTax(address citizen, uint amount) public returns (bool);
 function allocateFunds(uint taxId, uint projectId, uint amount) public;
 function getTaxTrail(address citizen) public view returns (...);
+
+
+## NOTE The Solidity code has been tested and run on Remix IDE 
