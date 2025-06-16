@@ -14,6 +14,7 @@ router.post('/register', registerUser);
 router.put('/update-me',authMiddleware, updateUser);
 router.get('/logout',authMiddleware, LogOut);
 router.put('/forgot-password', forgotPassword);
+
 router.delete('/delete-me',adminMiddleware, deleteUser);
 
 export default router;

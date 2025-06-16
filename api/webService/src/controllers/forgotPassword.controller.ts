@@ -5,6 +5,19 @@ import bcrypt from "bcrypt";
 const sendOTP = async(mobile_no:number)=>{
     // Send OTP Function using SMTP
 }
+export const resetPassword = async(req: Request, res: Response, next: NextFunction):Promise<void>=>{
+    try{
+        // Generate a random number
+
+    }catch(err){
+        console.error(err);
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong",
+            error: err
+        });
+    }
+}
 
 
 export const forgotPassword = async(req : Request, res : Response, next : NextFunction):Promise<void>=>{
@@ -17,7 +30,7 @@ export const forgotPassword = async(req : Request, res : Response, next : NextFu
             });
             return;
         }
-        
+
         const cookie = req.cookies('otp');
         if(!cookie){
             res.status(404).json({

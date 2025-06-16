@@ -7,7 +7,7 @@ app.use('/', async (req : Request, res : Response, next : NextFunction):Promise<
     try{
         res.status(200).json({
             success : true,
-            message : "Event Management API Running"
+            message : "Tax Chain API Running"
         })
     }catch(err){
         console.error(err);
